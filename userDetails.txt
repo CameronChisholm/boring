@@ -1,0 +1,7 @@
+1,Fred,bob123,5,-1
+2,Cameron,Mouse123,0,-1
+3,Alex,password123,0,-1
+4,Bob,qwerty123,0,-1
+5,Ralph,computer123,0,-1
+6,James,pet567,0,-1
+7,,,0,-1
