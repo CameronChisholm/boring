@@ -62,6 +62,30 @@ public class FightsGUI extends JFrame implements ActionListener
 
 	private JLabel lblRankingTableTabDescription;
 
+	/*
+
+	EDIT FIGHT POP-UP BOX VARIABLES
+
+	*/
+
+	JTextField testingTF = new JTextField();
+	/*
+	JComboBox t4_NewFencerGender = new JComboBox(genders);
+	JComboBox t4_NewDominantHand = new JComboBox(dominantHand);
+	JComboBox t4_NewBirthDay = new JComboBox(days);
+	JComboBox t4_NewBirthMonth = new JComboBox(months);
+	JComboBox t4_NewBirthYear = new JComboBox(years);
+	*/
+
+
+	public void setUpEditPopUp()
+	{
+		Object[] newUserInformation = {
+		    "Name", testingTF
+		};
+
+		int option = JOptionPane.showConfirmDialog(null, newUserInformation, "Add User", JOptionPane.OK_CANCEL_OPTION);
+	}
 
 
 	public void startGUI()
@@ -319,6 +343,10 @@ public class FightsGUI extends JFrame implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
  	{
+
+ 		String recordClickedOn;
+
+
 		if(e.getSource()==btSubmit)
 		{
 		
@@ -346,9 +374,41 @@ public class FightsGUI extends JFrame implements ActionListener
 			HomePage.storeFight(winnerName,loserName,winnerScore,loserScore);
 		}
 
+		
+		
 		else if(e.getSource()==btEdit)
 		{
-			System.out.println(fightsTable.getValueAt(fightsTable.getSelectedRow(), 0).toString());
+			try
+			{
+				recordClickedOn = fightsTable.getValueAt(fightsTable.getSelectedRow(), 0).toString();
+
+				System.out.println(recordClickedOn);
+
+				setUpEditPopUp();
+			}
+			catch(Exception ex)
+			{
+				System.out.println("Error, Code=1.1");
+			}	
+
+
+		}
+
+		else if(e.getSource()==btDelete)
+		{
+			try
+			{
+				recordClickedOn = fightsTable.getValueAt(fightsTable.getSelectedRow(), 0).toString();
+
+				System.out.println(recordClickedOn);
+			}
+			catch(Exception ex)
+			{
+				System.out.println("Error, Code=1.2");
+			}
+
+
+				
 		}
 		
 	}
