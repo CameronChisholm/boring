@@ -62,6 +62,122 @@ public class FightsGUI extends JFrame implements ActionListener
 
 	private JLabel lblRankingTableTabDescription;
 
+	/*
+
+	EDIT FIGHT POP-UP BOX VARIABLES
+
+	*/
+
+	private JTextField tfScoreLimit = new JTextField();
+	private JTextField tfWinnerName = new JTextField();
+	private JTextField tfLoserName = new JTextField();
+	private JTextField tfLoserScore = new JTextField();
+
+	private JLabel lblScoreLimitEdit  = new JLabel();
+	private JLabel lblSelectWinnerEdit = new JLabel();
+	private JLabel lblSelectLoserEdit = new JLabel();
+	private JLabel lblSelectLoserScoreEdit = new JLabel();
+
+	/*
+	JComboBox t4_NewFencerGender = new JComboBox(genders);
+	JComboBox t4_NewDominantHand = new JComboBox(dominantHand);
+	JComboBox t4_NewBirthDay = new JComboBox(days);
+	JComboBox t4_NewBirthMonth = new JComboBox(months);
+	JComboBox t4_NewBirthYear = new JComboBox(years);
+	*/
+
+	/*
+
+	DELETE FIGHT POP UP BOX
+
+	*/
+
+	private JLabel promptUser = new JLabel();
+
+	public boolean setUpEditPopUp(String[] tempRecordUserClickedOn)
+	{
+		tfScoreLimitCustom.setBounds(270,115,50,25);	
+
+		lblScoreLimitEdit.setLocation(10,50);
+		lblScoreLimitEdit.setSize(400,50);
+		lblScoreLimitEdit.setOpaque(true);
+		lblScoreLimitEdit.setFont(new Font("Courier",Font.PLAIN,20));
+		lblScoreLimitEdit.setText("Enter Score Limit");
+
+		lblSelectWinnerEdit.setLocation(10,50);
+		lblSelectWinnerEdit.setSize(400,50);
+		lblSelectWinnerEdit.setOpaque(true);
+		lblSelectWinnerEdit.setFont(new Font("Courier",Font.PLAIN,20));
+		lblSelectWinnerEdit.setText("Enter Winner's Name");
+
+		lblSelectLoserEdit.setLocation(10,50);
+		lblSelectLoserEdit.setSize(400,50);
+		lblSelectLoserEdit.setOpaque(true);
+		lblSelectLoserEdit.setFont(new Font("Courier",Font.PLAIN,20));
+		lblSelectLoserEdit.setText("Enter Loser's Name");
+
+		lblSelectLoserScoreEdit.setLocation(10,50);
+		lblSelectLoserScoreEdit.setSize(400,50);
+		lblSelectLoserScoreEdit.setOpaque(true);
+		lblSelectLoserScoreEdit.setFont(new Font("Courier",Font.PLAIN,20));
+		lblSelectLoserScoreEdit.setText("Enter Loser's Score");
+	
+		tfScoreLimit.setText(tempRecordUserClickedOn[0]);
+		tfWinnerName.setText(tempRecordUserClickedOn[1]);
+		tfLoserName.setText(tempRecordUserClickedOn[2]);
+		tfLoserScore.setText(tempRecordUserClickedOn[3]);
+
+		Object[] newUserInformation = {
+		    "", lblScoreLimitEdit,
+		    "", tfScoreLimit,
+		    "", lblSelectWinnerEdit,
+		    "", tfWinnerName,
+		    "", lblSelectLoserEdit,
+		    "", tfLoserName,
+		    "", lblSelectLoserScoreEdit,
+		    "", tfLoserScore
+
+		};
+
+		int option = JOptionPane.showConfirmDialog(null, newUserInformation, "Edit Fight", JOptionPane.OK_CANCEL_OPTION);
+
+		boolean confirmed = false;	
+	
+		if(option==0)
+		{
+			confirmed = true;
+		}
+
+		return confirmed;
+	}
+
+	public boolean setUpDeletePopUp()
+	{
+
+		promptUser.setLocation(10,50);
+		promptUser.setSize(400,50);
+		promptUser.setOpaque(true);
+		promptUser.setFont(new Font("Courier",Font.PLAIN,20));
+		promptUser.setText("Are you sure you want to delete?");
+
+		Object[] newUserInformation = {
+		    "", promptUser
+		};
+
+		int option = JOptionPane.showConfirmDialog(null, newUserInformation, "Delete Fight", JOptionPane.OK_CANCEL_OPTION);
+
+		boolean isUserSure = false;	
+	
+		if(option==0)
+		{
+			isUserSure = true;
+		}
+
+		return isUserSure;
+
+
+		
+	}	
 
 
 	public void startGUI()
@@ -244,7 +360,19 @@ public class FightsGUI extends JFrame implements ActionListener
 
 
 		String[] headings = {"Winner","Winner Points","Loser","Loser Points"};
-		fightRecords = HomePage.getFightData();
+
+		boolean areThereFights = false;
+
+		areThereFights = HomePage.doFightsExist();
+
+		if(areThereFights == true)
+		{
+			fightRecords = HomePage.getFightData();
+		}
+		else
+		{
+			fightRecords = new String[0][4];
+		}
 
 		fightsTableModel = new DefaultTableModel(fightRecords,headings);
 
@@ -283,7 +411,7 @@ public class FightsGUI extends JFrame implements ActionListener
 		)
 	{
 		int amountOfFights = fightRecords.length;
-		String[][] updatedFightRecords = new String[amountOfFights+1][4];
+		String[][] updatedFightRecords = new String[amountOfFights+1][5];
 		
 		for(int i=0;i<amountOfFights+1;i++)
 		{
@@ -304,24 +432,42 @@ public class FightsGUI extends JFrame implements ActionListener
 			}
 		}
 
-		for(int j=0;j<updatedFightRecords.length;j++)
-		{
-			System.out.println(updatedFightRecords[j][0]);
-			System.out.println(updatedFightRecords[j][1]);
-			System.out.println(updatedFightRecords[j][2]);
-			System.out.println(updatedFightRecords[j][3]);
-		}
-		
+		System.out.println("Original Array");
+		output2DArray(fightRecords);
 		fightRecords = updatedFightRecords;
-		fightsTableModel.fireTableDataChanged();
+		System.out.println("Edited Array");
+		output2DArray(fightRecords);
+	}
+
+	public void output2DArray(String[][] tempArray)
+	{
+		String record ="";
+		for(int i=0;i<tempArray.length;i++)
+		{
+			for(int j=0;j<5;j++)
+			{
+				record=tempArray[i][j]+record;
+			}
+			System.out.println(record);
+		}
 	}
 
 
 	public void actionPerformed(ActionEvent e)
  	{
+
+ 		String[] recordClickedOn = new String[4];
+ 		String field;
+
+
 		if(e.getSource()==btSubmit)
 		{
-		
+			// Creating a new instance of a Fight.
+
+			GenerateFight newFight;
+			
+			// Gathering all the relevant information to be able to store the fight.
+
 			String winnerName = cbWinner.getSelectedItem().toString();
 			String loserName = cbLoser.getSelectedItem().toString();
 
@@ -343,12 +489,56 @@ public class FightsGUI extends JFrame implements ActionListener
 
 			updateFightTable(winnerName,loserName,winnerScore,loserScore);
 
-			HomePage.storeFight(winnerName,loserName,winnerScore,loserScore);
+			// All the relevant information that we need to create a fight has been gathered.
+			newFight = new GenerateFight();
+
+			newFight.storeFight(winnerName,loserName,winnerScore,loserScore);
 		}
 
+		
+		
 		else if(e.getSource()==btEdit)
 		{
-			System.out.println(fightsTable.getValueAt(fightsTable.getSelectedRow(), 0).toString());
+			
+			try
+			{
+				for(int i=0;i<4;i++)
+				{
+					field = fightsTable.getValueAt(fightsTable.getSelectedRow(), i).toString();
+					recordClickedOn[i] = field;
+				}
+
+				setUpEditPopUp(recordClickedOn);
+			}
+			catch(Exception ex)
+			{
+				System.out.println("Error, Code=1.1");
+			}	
+
+
+		}
+
+		else if(e.getSource()==btDelete)
+		{
+			try
+			{
+
+				for(int i=0;i<4;i++)
+				{
+					field = fightsTable.getValueAt(fightsTable.getSelectedRow(), i).toString();
+					recordClickedOn[i] = field;
+				}
+
+				boolean confirmDelete = setUpDeletePopUp();
+
+			}
+			catch(Exception ex)
+			{
+				System.out.println("Error, Code=1.2");
+			}
+
+
+				
 		}
 		
 	}

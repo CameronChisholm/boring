@@ -7,9 +7,48 @@ public class LoginGUI extends JFrame implements ActionListener
 
 	private JTabbedPane myTabs = new JTabbedPane();
 
+	// This is the panel for the 'login' tab
+	private JPanel loginTab = new JPanel(null);
+	
+	/* 
+	Below, GUI Components for the 'login'
+	tab are declared.
+	*/
+
+	// This is the submit button for the login form
+	private JButton btLogin = new JButton();
+	
+	// This is the text field for the login form
+	private JTextField tfUsr = new JTextField(6);
+	
+	// This is the password field for the login form
+	private JPasswordField pfPasswd = new JPasswordField(10);
+	
+	// This is the label describing the user text field
+	private JLabel lblUsr = new JLabel();
+	
+	// This is the label describing the password field
+	private JLabel lblPasswd = new JLabel();
+
+	// This is the label displaying the welcome message at the top of the window
+	private JLabel lblWelcomeMessage = new JLabel();
+
+	// This label tells the user they can login or create an account
+	private JLabel lblOr = new JLabel();
+
+	// This button allows the user to go and create an account rather than login
+	private JButton btCreateAnAccount = new JButton();
+
+	
+	// This is the panel for the 'creating an account' tab
 	private JPanel createAnAccountTab = new JPanel(null);
 	
 	
+	/* 
+	Below, GUI Components for the 'create an account'
+	tab are declared.
+	*/
+
 	private JLabel lblEnterUsr = new JLabel();
 	
 	private JLabel lblEnterPasswd = new JLabel();
@@ -23,18 +62,6 @@ public class LoginGUI extends JFrame implements ActionListener
 	private JPasswordField pfReEnterPasswd = new JPasswordField(10);
 
 	private JButton btSubmitUserDetails = new JButton();
-
-
-	public void startCreateAnAccountTab()
-	{
-		for(int i=0;i<50;i++){System.out.print("-");}
-		System.out.println();
-		System.out.println("Author:Cameron Chisholm");
-		for(int i=0;i<50;i++){System.out.print("-");}
-		System.out.println();
-		
-		setUpCreateAnAccountTab();
-	}
 	
 	public void setUpCreateAnAccountTab()
 	{
@@ -53,7 +80,6 @@ public class LoginGUI extends JFrame implements ActionListener
 		lblReEnterPasswd.setOpaque(true);
 		lblReEnterPasswd.setText("Re-enter Password:");
 		
-
 		pfEnterPasswd.addActionListener(this);
 		pfEnterPasswd.setLocation(200,200);
 		pfEnterPasswd.setSize(200,50);
@@ -83,58 +109,21 @@ public class LoginGUI extends JFrame implements ActionListener
 		
 	}
 
-	/*
-
-	LOGIN TAB 
-
-	*/
-	private JPanel loginTab = new JPanel(null);
-	
-	// This is the submit button for the login form
-	private JButton btLogin = new JButton();
-	
-	// This is the text field for the login form
-	private JTextField tfUsr = new JTextField(6);
-	
-	// This is the password field for the login form
-	private JPasswordField pfPasswd = new JPasswordField(10);
-	
-	// This is the label describing the user text field
-	private JLabel lblUsr = new JLabel();
-	
-	// This is the label describing the password field
-	private JLabel lblPasswd = new JLabel();
-
-	// This is the label displaying the welcome message at the top of the window
-	private JLabel lblWelcomeMessage = new JLabel();
-
-	// This label tells the user they can login or create an account
-	private JLabel lblOr = new JLabel();
-
-	// This button allows the user to go and create an account rather than login
-	private JButton btCreateAnAccount = new JButton();
-	
-	
 	public void startGUI()
-	{
-		for(int i=0;i<50;i++){System.out.print("-");}
-		System.out.println();
-		System.out.println("Author:Cameron Chisholm");
-		for(int i=0;i<50;i++){System.out.print("-");}
-		System.out.println();
-		
+	{	
 		setUpLoginTab();
+		setUpCreateAnAccountTab();
+
 		myTabs.addTab("Login",loginTab);
+		
 		this.setLayout(new GridLayout(1,1));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
-		
 		this.setSize(800,500);
 		this.setVisible(true);
 		
 		this.add(myTabs);
 
-		startCreateAnAccountTab();
+		
 		
 	}
 	

@@ -81,11 +81,13 @@ public class HomePage
 
 		String userIDNo = "";
 
+		int nameIndex = 1;
+
 		for(int i=0;i<userDetailsRecord.length;i++)
 		{
 			String[] singleRecord = userDetailsRecord[i].split(",");
 			
-			if(singleRecord[1].equals(searchTerm))
+			if(singleRecord[nameIndex].equals(searchTerm))
 			{
 				userIDNo = singleRecord[0];
 			}
@@ -136,26 +138,61 @@ public class HomePage
 		return matchingRecords;
 	}
 
+	public static boolean doFightsExist()
+	{
+		boolean fightDataExists = false;
+		String filename = "fightData.txt";
+	
+		String fileContents = ReadWriteToTxt.read(filename);
+		
+		if(fileContents.equals(""))
+		{
+			fightDataExists = false;
+			System.out.println("This if statement has run.");
+		}
+
+		else
+		{
+			fightDataExists = true;
+		}
+
+		return fightDataExists;
+	
+	}
+
 	public static String[][] getFightData()
 	{
 		String filename = "fightData.txt";
 
 		String fileContents = ReadWriteToTxt.read(filename);
-
+		
 		String[] fightData = fileContents.split("-1");
 
-		String[][] fightRecords = new String[fightData.length][4];
+/*
+		for(int a=0;a<fightData.length;a++)
+		{
+			System.out.println(fightData[a]);
+		}
+*/
+		String [][] fightRecords = new String[fightData.length][5];
 
 		for(int i=0;i<fightData.length;i++)
 		{
 			String[] singleRecord = fightData[i].split(",");
-			fightRecords[i][0] = singleRecord[1];
-			fightRecords[i][1] = singleRecord[2];
-			fightRecords[i][2] = singleRecord[4];
-			fightRecords[i][3] = singleRecord[5];
+			// Winner Name
+			fightRecords[i][0] = singleRecord[2];
+			// Winner Points
+			fightRecords[i][1] = singleRecord[3];
+			// Loser Name
+			fightRecords[i][2] = singleRecord[5];
+			// Loser Points
+			fightRecords[i][3] = singleRecord[6];
+
+			// Fight ID
+			System.out.println(singleRecord[0]);
+			fightRecords[i][4] = singleRecord[0];
 		}
-
+		
 		return fightRecords;
-
 	}
 }
